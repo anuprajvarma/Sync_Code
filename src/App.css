@@ -1,38 +1,58 @@
-.App {
+body {
+  margin: 0;
+  background-color: #1C0A00;
+}
+
+.container {
+  margin: auto;
+  margin-top: 250px;
+  width: 500px;
+  height: 350px;
   text-align: center;
+  background: rgba(96, 54, 1, 1);
+  border-radius: 5px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.room_id {
+  border-radius: 5px;
+  width: 300px;
+  height: 30px;
+  background-color: white;
+  margin-top: 20px;
+  outline: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.username {
+  border-radius: 5px;
+  width: 300px;
+  height: 30px;
+  background-color: white;
+  margin-top: 20px;
+  outline: none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.Join_botton {
+  position: relative;
+  border-radius: 2px;
+  margin-top: 10px;
+  left: 105px;
+  width: 100px;
+  height: 20px;
+  background-color: rgba(204, 149, 68, 1);
+  cursor: pointer;
+  border: none;
+}
+
+p {
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.boxes {
+  position: relative;
+  top: 40px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.new_room {
+  color: rgba(204, 149, 68, 1);
+  cursor: pointer;
 }
