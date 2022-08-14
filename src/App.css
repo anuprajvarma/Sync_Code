@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background-color: #1C0A00;
+  background-color: #1d1d28;
 }
 
 .container {
@@ -9,7 +9,7 @@ body {
   width: 500px;
   height: 350px;
   text-align: center;
-  background: rgba(96, 54, 1, 1);
+  background: #282837;
   border-radius: 5px;
 }
 
@@ -17,34 +17,63 @@ body {
   border-radius: 5px;
   width: 300px;
   height: 30px;
+  margin: auto;
   background-color: white;
-  margin-top: 20px;
+  border: none;
   outline: none;
 }
 
 .username {
+  margin: auto;
   border-radius: 5px;
   width: 300px;
   height: 30px;
   background-color: white;
   margin-top: 20px;
   outline: none;
+  border: none;
 }
 
 .Join_botton {
   position: relative;
   border-radius: 2px;
+  font-size: 15px;
+  font-weight: bold;
   margin-top: 10px;
-  left: 105px;
+  left: 100px;
   width: 100px;
-  height: 20px;
-  background-color: rgba(204, 149, 68, 1);
+  height: 30px;
+  background-color: #01fd87;
+  color: #001100;
   cursor: pointer;
   border: none;
 }
 
-p {
+.paragraph1 {
+  margin-top: 40px;
   color: white;
+  font-size: 17px;
+}
+
+.paragraph2 {
+  color: white;
+  font-size: 17px;
+}
+
+.paragraph3 {
+  position: relative;
+  right: 55px;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.input-box {
+  position: relative;
+  margin-top: 5px;
+  right: 50px;
+  border: none;
+  outline: none;
 }
 
 .boxes {
@@ -52,7 +81,38 @@ p {
   top: 40px;
 }
 
+.image {
+  position: relative;
+  top: 10px;
+  right: 10px;
+  width: 50px;
+  height: 40px;
+}
+
+.app-heading {
+  position: relative;
+  right: 50px;
+  font-weight: bold;
+  color: #76c2af;
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+
+.github_link {
+  color: #01fd87;
+  cursor: pointer;
+}
+
+.footer {
+  position: fixed;
+  bottom: 30px;
+  font-weight: bold;
+  left: 45%;
+  width: 200px;
+  height: 20px;
+}
+
 .new_room {
-  color: rgba(204, 149, 68, 1);
+  color: #01fd87;
   cursor: pointer;
 }
