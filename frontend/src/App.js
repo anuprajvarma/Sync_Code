@@ -1,8 +1,11 @@
 import React from "react";
+import Socket from "socket.io-client";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './Home'
 import './App.css'
 import Editor from "./Editor";
+
+const socket = Socket.connect("http://localhost:5400")
 
 function App() {
 
