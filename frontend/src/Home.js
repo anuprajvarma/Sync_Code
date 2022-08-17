@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
+import Socket from "socket.io-client";
 import logo from "./images/logo.webp"
-import './App.css'
+import './Home.css'
 import { useNavigate } from 'react-router-dom';
 
+
+const socket = Socket.connect("http://localhost:5400")
+
 function Home() {
-    const [roomId, setRoomId] = useState();
-    const [username, setUserName] = useState();
+    const [roomId, setRoomId] = useState("");
+    const [username, setUserName] = useState("");
     const navigate = useNavigate();
 
     const randomNumber = () => {
@@ -15,7 +19,10 @@ function Home() {
     }
 
     const joinRoomHandle = () => {
-        navigate("/editor")
+        if (roomId !== "" && username !== "") {
+            socket.emit("join_room", roomId)
+            navigate("/editor")
+        }
     }
 
     const roomIdhandle = (e) => {
