@@ -1,27 +1,33 @@
 import React, { useState } from 'react'
-import Socket from "socket.io-client";
 import logo from "./images/logo.webp"
 import './Home.css'
 import { useNavigate } from 'react-router-dom';
-
-
-const socket = Socket.connect("http://localhost:5400")
+import { toast } from 'react-hot-toast'
 
 function Home() {
     const [roomId, setRoomId] = useState("");
     const [username, setUserName] = useState("");
     const navigate = useNavigate();
 
-    const randomNumber = () => {
+    const CreateNewRoom = () => {
         const value = Math.random().toString(36).slice(2, 7);
-        console.log(value)
+        //console.log(value)
+        toast.success('Created new room');
         setRoomId(value)
     }
 
     const joinRoomHandle = () => {
         if (roomId !== "" && username !== "") {
-            socket.emit("join_room", roomId)
-            navigate("/editor")
+            navigate(`editor/${roomId}`, {
+                state: {
+                    username,
+                }
+            });
+            toast.success('Successfully entered room');
+        }
+        else {
+            toast.error('Not valid inputs, try again!')
+            return;
         }
     }
 
@@ -50,7 +56,7 @@ function Home() {
                         <input type='text' className="input-box" value={username} onChange={userNamehandle} placeholder="Username" />
                     </div>
                     <button type='submit' className="Join_botton" onClick={joinRoomHandle}>Join</button>
-                    <p className="paragraph1">If you don't have invite then create <span onClick={randomNumber} className="new_room">new room</span></p>
+                    <p className="paragraph1">If you don't have invite then create <span onClick={CreateNewRoom} className="new_room">new room</span></p>
                 </div>
             </div>
             <div className="footer">

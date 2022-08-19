@@ -20,17 +20,12 @@ io.on("connection", (socket) => {
     console.log(` user connected ${socket.id}`);
 
     socket.on("join_room", (data) => {
-        socket.join(data)
-        console.log(`join room ${socket.id + data}`)
-    })
 
-    socket.on("disconnect", () => {
-        console.log("USer Disconnceted")
     })
 })
 
 app.get('/test', (req, res) => {
-    res.send("sdl;kfjldsjf;j")
+    res.send("Hi I am chitti")
 })
 
 
