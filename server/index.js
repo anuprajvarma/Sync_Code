@@ -16,11 +16,35 @@ const io = new Server(server, {
     }
 })
 
+const getAllConnectedClients = (id) => {
+    return Array.from(io.sockets.adapter.rooms.get(id) || []).map((socketId) => {
+        return {
+            socketId,
+            username: userSocketMap[socketId]
+        }
+    })
+}
+
+const userSocketMap = {};
+
+
 io.on("connection", (socket) => {
     console.log(` user connected ${socket.id}`);
 
     socket.on("join_room", (data) => {
-
+        //console.log(data)
+        const username = data.username;
+        userSocketMap[socket.id] = username;
+        socket.join(data.roomId);
+        const clients = getAllConnectedClients(data.roomId);
+        //console.log(clients)
+        clients.forEach(({ socketId }) => {
+            io.to(socketId).emit("joined_user", {
+                clients,
+                username,
+                socketId: socket.id
+            })
+        })
     })
 })
 

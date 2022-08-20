@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import Client from './Client_avatar'
 import { io } from 'socket.io-client'
+import Client from './components/Client_avatar'
 import logo from "./images/logo.webp"
 import './Editor.css'
 
@@ -10,38 +10,37 @@ const socket = io("http://localhost:5400")
 
 
 function Editor() {
-    const [clients, setclients] = useState([]);
+    const [clients, setclients] = useState([])
     const navigate = useNavigate();
+    const effectRan = useRef(false)
     const location = useLocation();
     const data = useParams();
     const roomId = data.id
     const username = location.state.username
 
     useEffect(() => {
-        const init = () => {
-            socket.on("connect_error", (err) => {
-                handleerror(err);
-            })
-            socket.on("connect_failed", (err) => {
-                handleerror(err);
-            })
-            function handleerror(err) {
-                toast.error('Socket connection failed, try again!')
-                navigate('/');
-            }
-            socket.emit('join_room', { roomId, username })
-
-            socket.on("joined_user", ({ clients, username, socketId }) => {
-                console.log(username + "  " + location.state.username);
-                if (username !== location.state.username) {
-                    setclients(clients);
-                    toast.success(`${username} joined the room.`)
-                }
-            });
-        };
-        init();
+        socket.emit('join_room', { roomId, username })
     }, []);
+
+    useEffect(() => {
+
+        socket.on("joined_user", ({ clients, username, socketId }) => {
+            setclients(clients);
+
+            if (username !== location.state.username) {
+                toast.success(`${username} joined the room.`)
+            }
+        })
+        return () => {
+            socket.off("joined_user", (data) => {
+                console.log(`${data.roomId}`)
+            })
+        }
+    }, [socket])
+
+
     async function copyRoomId() {
+        console.log(clients)
         try {
             await window.navigator.clipboard.writeText(roomId);
             toast.success('Room id has been copied to clipboard!')
