@@ -26,7 +26,6 @@ function Editor() {
 
         socket.on("joined_user", ({ clients, username, socketId }) => {
             setclients(clients);
-
             if (username !== location.state.username) {
                 toast.success(`${username} joined the room.`)
             }
