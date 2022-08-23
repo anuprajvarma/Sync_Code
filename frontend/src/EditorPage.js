@@ -4,12 +4,13 @@ import toast from 'react-hot-toast';
 import { io } from 'socket.io-client'
 import Client from './components/Client_avatar'
 import logo from "./images/logo.webp"
-import './Editor.css'
+import Editor from './components/Editor';
+import './EditorPage.css'
 
 const socket = io("http://localhost:5400")
 
 
-function Editor() {
+function EditorPage() {
     const [clients, setclients] = useState([])
     const navigate = useNavigate();
     const effectRan = useRef(false)
@@ -30,10 +31,19 @@ function Editor() {
                 toast.success(`${username} joined the room.`)
             }
         })
-        return () => {
-            socket.off("joined_user", (data) => {
-                console.log(`${data.roomId}`)
+
+        socket.on('disconnected', ({ socketId, username }) => {
+            toast.success(`${username} left the room`);
+            setclients((prev) => {
+                return prev.filter(
+                    (clients) => clients.socketId !== socketId
+                )
             })
+        })
+        return () => {
+            socket.disconnect();
+            socket.off("disconnected")
+            socket.off("joined_user")
         }
     }, [socket])
 
@@ -53,31 +63,30 @@ function Editor() {
     }
 
     return (
-        <div >
-            <div className='menu'>
-                <div className="editor_heading">
-                    <p> <img className="logo_editor" src={logo} alt=""></img>Sync Code</p>
-                </div>
-                <div>
-                    <p className='user_heading'>Connected</p>
-                </div>
-                <div className='clientList'>
-                    {
-                        clients.map((item) => (<Client key={item.socketId} username={item.username} />))
-                    }
+        <div className='mainWrap'>
+            <div className='aside'>
+                <div className='asideInner'>
+                    <div className="logo">
+                        <img className="logoImage" src={logo} alt="" />
+                    </div>
+                    <h3>Connected</h3>
+                    <div className='clientList'>
+                        {
+                            clients.map((item) => (<Client key={item.socketId} username={item.username} />))
+                        }
+                    </div>
                 </div>
                 <div className='buttons'>
-                    <div>
-                        <button className='copy_room_id_botton' onClick={copyRoomId}>Copy Room Id</button>
-                    </div>
-                    <div>
-                        <button className='leave_botton' onClick={leaveRoom}>Leave</button>
-                    </div>
+                    <button className='btn copyBtn' onClick={copyRoomId}>Copy Room Id</button>
+                    <button className='btn leaveBtn' onClick={leaveRoom}>Leave</button>
                 </div>
             </div>
 
+            <div className='editorWrap'>
+                <Editor />
+            </div>
         </div>
     )
 }
 
-export default Editor
+export default EditorPage
