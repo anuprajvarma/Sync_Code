@@ -1,6 +1,6 @@
 ### ***Sync_Code***
 ---
-#### *This is a paint application built with MERN stack which has the functionality of login and sign up. It is integrated with MongoDB to store user info.*
+#### *Sync Code is a web platform where you can code syncronously in a room with other members*
 
 ---
 
