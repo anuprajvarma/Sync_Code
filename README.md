@@ -19,3 +19,10 @@
 
 <img src="Images/Home.png" width="700px"/>
 <img src="Images/Editor.png" width="700px"/>
+
+
+# ⚙ Running the Project
+
+- clone the repository to your local system `https://github.com/anuprajvarma/Sync_Code`
+ 
+ 
