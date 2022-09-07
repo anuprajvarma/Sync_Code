@@ -14,5 +14,5 @@
 
 > ***Snapshot of app:*** 
 
-<img src="Images/Editor.png"/>
-<img src="Images/Home.png"/>
+<img src="Images/Home.png" width="500px" height="400px"/>
+<img src="Images/Editor.png" width="700px" height=""300px/>
