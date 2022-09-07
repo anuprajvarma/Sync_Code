@@ -17,5 +17,5 @@
 
 > ***Snapshot of app:*** 
 
-<img src="Images/Home.png" width="700px"/>
-<img src="Images/Editor.png" width="700px"/>
+<img src="Images/Home.png"/>
+<img src="Images/Editor.png"/>
