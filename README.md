@@ -7,13 +7,15 @@
 #### ***Technologies used:***
 > ***Frontend***
 * ***ReactJs***
+* ***Socket.io-client as Web-socket client***
 
 > ***Backend***
 * ***NodeJs***
 * ***ExpressJs***
 * ***MongoDB***
+* ***Socket.io for Web-socket communication***
 
 > ***Snapshot of app:*** 
 
-<img src="images/Editor.png"/>
-<img src="images/Home.png"/>
+<img src="Images/Home.png"/>
+<img src="Images/Editor.png"/>
