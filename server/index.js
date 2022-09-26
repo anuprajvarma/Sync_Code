@@ -24,9 +24,7 @@ const getAllConnectedClients = (id) => {
         }
     })
 }
-
 const userSocketMap = {};
-
 
 io.on("connection", (socket) => {
     console.log(` user connected ${socket.id}`);
