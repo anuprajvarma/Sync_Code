@@ -1,36 +1,54 @@
-import React from 'react'
-import CodeMirror from '@uiw/react-codemirror'
-import { createTheme } from '@uiw/codemirror-themes';
-import { javascript } from '@codemirror/lang-javascript';
-import { tags as t } from '@lezer/highlight';
-import './Editor.css'
+import React, { useEffect, useRef } from 'react'
+import Codemirror from 'codemirror';
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/theme/dracula.css';
+import 'codemirror/mode/javascript/javascript';
+import 'codemirror/addon/edit/closetag';
+import 'codemirror/addon/edit/closebrackets';
 
-const myTheme = createTheme({
-    dark: 'dark',
-    settings: {
-        background: '#233338',
-        //foreground: '#0d0807',
-        caret: '#AEAFAD',
-        selection: '#87cefa',
-        //selectionMatch: '#D6D6D6',
-        gutterBackground: '#233338',
-        gutterForeground: '#4DD4C',
-        gutterBorder: '#233338',
-        lineHighlight: '#233338',
-    },
-    styles: [
-        { tag: t.comment, color: '#787b80' },
-        { tag: t.definition(t.typeName), color: '#194a7b' },
-        { tag: t.typeName, color: '#194a7b' },
-        { tag: t.tagName, color: '#008a02' },
-        { tag: t.variableName, color: '#1a00db' },
-    ],
-});
+const Editor = ({socketRef,roomId, onCodeChange}) => {
 
-const Editor = () => {
+    const editorRef = useRef(null);
+
+    useEffect(()=>{
+        async function init(){
+            editorRef.current = Codemirror.fromTextArea(document.getElementById('realtimeEditor'),{
+                mode: {name: 'javascript' , json: true},
+                theme: 'dracula',
+                autoCloseBrackets: true,
+                autoCloseTags: true,
+                lineNumbers: true,
+            })
+
+            editorRef.current.on('change',(instance,changes)=>{
+                //console.log('changes',changes)
+                const {origin}= changes;
+                const code = instance.getValue();
+                onCodeChange(code)
+                if(origin!=='setValue'){
+                    socketRef.emit('codeChange',{
+                        roomId,
+                        code,
+                    })
+                } 
+            });
+        }
+        init();
+    },[]);
+
+    useEffect(()=>{
+        if(socketRef){
+            socketRef.on('codeChange',({code})=>{
+                console.log('receving',code)
+                if(code!==null){
+                    editorRef.current.setValue(code);
+                }
+            })
+        }
+    },[socketRef])
 
     return (
-        <CodeMirror height="100vh" theme={myTheme} extensions={[javascript({ jsx: true })]} />
+        <textarea id='realtimeEditor'></textarea>
     )
 }
 

@@ -64,3 +64,9 @@
     margin-top: 20px;
     background-color: #01fd87;
 }
+.CodeMirror {
+    min-height: calc(100vh - 20px);
+    font-size: 15px;
+    line-height: 1.6;
+    padding-top: 20px;
+}

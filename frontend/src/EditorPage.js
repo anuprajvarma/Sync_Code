@@ -11,9 +11,10 @@ const socket = io("http://localhost:5400")
 
 
 function EditorPage() {
-    const [clients, setclients] = useState([])
+    const [clients, setclients] = useState([]);
     const navigate = useNavigate();
-    const effectRan = useRef(false)
+    const codeRef = useRef(null);
+    const effectRan = useRef(false);
     const location = useLocation();
     const data = useParams();
     const roomId = data.id
@@ -26,10 +27,15 @@ function EditorPage() {
     useEffect(() => {
 
         socket.on("joined_user", ({ clients, username, socketId }) => {
-            setclients(clients);
             if (username !== location.state.username) {
                 toast.success(`${username} joined the room.`)
             }
+            setclients(clients);
+
+            socket.emit('sync_code',{
+                code: codeRef.current,
+                socketId,
+            })
         })
 
         socket.on('disconnected', ({ socketId, username }) => {
@@ -83,7 +89,7 @@ function EditorPage() {
             </div>
 
             <div className='editorWrap'>
-                <Editor />
+                <Editor socketRef={socket} roomId={roomId} onCodeChange={(code)=>{codeRef.current=code}}/>
             </div>
         </div>
     )

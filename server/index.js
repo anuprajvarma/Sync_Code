@@ -47,6 +47,20 @@ io.on("connection", (socket) => {
         })
     });
 
+    socket.on('codeChange',({roomId,code})=>{
+        //console.log('receving',code)
+        socket.in(roomId).emit('codeChange',{
+            code,
+        })
+    })
+
+    socket.on('sync_code',({socketId,code})=>{
+        //console.log('receving',code)
+        io.to(socketId).emit('codeChange',{
+            code,
+        })
+    })
+
     socket.on('disconnecting', () => {
         const rooms = [...socket.rooms]
         rooms.forEach((roomId) => {
