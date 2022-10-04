@@ -1,7 +1,7 @@
 const express = require('express');
 const { Server } = require('socket.io')
-const path = require('path')
-const http = require('http')
+const http = require('http');
+const path = require('path');
 //const cors = require('cors');
 
 
@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 5400;
 const io = new Server(server)
 
 app.use(express.static('build'));
-app.use((req,res,next) => {
+app.use((req,res,next)=>{
     res.sendFile(path.join(__dirname,'build','index.html'));
 })
 
@@ -76,9 +76,9 @@ io.on("connection", (socket) => {
     })
 })
 
-// app.get('/test', (req, res) => {
-//     res.send("Hi I am chitti")
-// })
+app.get('/test', (req, res) => {
+    res.send("Hi I am chitti")
+})
 
 
 server.listen(PORT, (req, res) => {
