@@ -1,44 +1,43 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { io } from 'socket.io-client'
+import { initSocket } from './socket'
 import Client from './components/Client_avatar'
 import logo from "./images/logo.webp"
 import Editor from './components/Editor';
 import './EditorPage.css'
 
-const socket = io("http://localhost:5400")
-
 
 function EditorPage() {
-    const [clients, setclients] = useState([]);
+    const socketRef = useRef(null)
     const navigate = useNavigate();
     const codeRef = useRef(null);
-    const effectRan = useRef(false);
     const location = useLocation();
     const data = useParams();
     const roomId = data.id
     const username = location.state.username
-
-    useEffect(() => {
-        socket.emit('join_room', { roomId, username })
-    }, []);
+    const [clients, setclients] = useState([]);
 
     useEffect(() => {
 
-        socket.on("joined_user", ({ clients, username, socketId }) => {
+        const init = async () =>{
+            socketRef.current = await initSocket();
+
+            socketRef.current.emit('join_room', { roomId, username })
+
+            socketRef.current.on("joined_user", ({ clients, username, socketId }) => {
             if (username !== location.state.username) {
                 toast.success(`${username} joined the room.`)
             }
             setclients(clients);
 
-            socket.emit('sync_code',{
+            socketRef.current.emit('sync_code',{
                 code: codeRef.current,
                 socketId,
             })
         })
 
-        socket.on('disconnected', ({ socketId, username }) => {
+        socketRef.current.on('disconnected', ({ socketId, username }) => {
             toast.success(`${username} left the room`);
             setclients((prev) => {
                 return prev.filter(
@@ -46,12 +45,14 @@ function EditorPage() {
                 )
             })
         })
-        return () => {
-            socket.disconnect();
-            socket.off("disconnected")
-            socket.off("joined_user")
         }
-    }, [socket])
+        init();
+        return () => {
+            socketRef.current.disconnect();
+            socketRef.current.off("disconnected")
+            socketRef.current.off("joined_user")
+        }
+    }, [])
 
 
     async function copyRoomId() {
@@ -89,7 +90,7 @@ function EditorPage() {
             </div>
 
             <div className='editorWrap'>
-                <Editor socketRef={socket} roomId={roomId} onCodeChange={(code)=>{codeRef.current=code}}/>
+                <Editor socketRef={socketRef} roomId={roomId} onCodeChange={(code)=>{codeRef.current=code}}/>
             </div>
         </div>
     )

@@ -1,20 +1,19 @@
 const express = require('express');
 const { Server } = require('socket.io')
 const http = require('http')
-const cors = require('cors');
+//const cors = require('cors');
 
 
 const app = express();
-app.use(cors());
+//app.use(cors());
 
 const server = http.createServer(app);
 
-const io = new Server(server, {
-    cors: {
-        origin: "http://localhost:3000",
-        methods: ["Get", "POST"],
-    }
-})
+const PORT = process.env.PORT || 5400;
+
+const io = new Server(server)
+
+const userSocketMap = {};
 
 const getAllConnectedClients = (id) => {
     return Array.from(io.sockets.adapter.rooms.get(id) || []).map((socketId) => {
@@ -24,7 +23,6 @@ const getAllConnectedClients = (id) => {
         }
     })
 }
-const userSocketMap = {};
 
 io.on("connection", (socket) => {
     console.log(` user connected ${socket.id}`);
@@ -77,6 +75,6 @@ app.get('/test', (req, res) => {
 })
 
 
-server.listen(5400, (req, res) => {
+server.listen(PORT, (req, res) => {
     console.log("server is started")
 })

@@ -26,7 +26,7 @@ const Editor = ({socketRef,roomId, onCodeChange}) => {
                 const code = instance.getValue();
                 onCodeChange(code)
                 if(origin!=='setValue'){
-                    socketRef.emit('codeChange',{
+                    socketRef.current.emit('codeChange',{
                         roomId,
                         code,
                     })
@@ -37,15 +37,15 @@ const Editor = ({socketRef,roomId, onCodeChange}) => {
     },[]);
 
     useEffect(()=>{
-        if(socketRef){
-            socketRef.on('codeChange',({code})=>{
+        if(socketRef.current){
+            socketRef.current.on('codeChange',({code})=>{
                 console.log('receving',code)
                 if(code!==null){
                     editorRef.current.setValue(code);
                 }
             })
         }
-    },[socketRef])
+    },[socketRef.current])
 
     return (
         <textarea id='realtimeEditor'></textarea>
