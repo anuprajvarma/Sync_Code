@@ -77,7 +77,7 @@ function EditorPage() {
                         <img className="logoImage" src={logo} alt="" />
                     </div>
                     <h3>Connected</h3>
-                    <div className='clientList'>
+                    <div className='clientList'> 
                         {
                             clients.map((item) => (<Client key={item.socketId} username={item.username} />))
                         }
