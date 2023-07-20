@@ -41,5 +41,6 @@ Sync code is a Web Application where multiple users can do code synchronously. F
 ### Running the Project
 
          npm i or yarn
+         npm i nodemon
          npm run start:front
          npm run server:dev
