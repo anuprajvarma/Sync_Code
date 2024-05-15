@@ -40,7 +40,6 @@ Sync code is a Web Application where multiple users can do code synchronously. F
 
 ### Running the Project
 
-         git clone https://github.com/anuprajvarma/Sync_Code.git
          npm i or yarn
          npm i nodemon
          npm run start:front
