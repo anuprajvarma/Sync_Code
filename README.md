@@ -1,6 +1,6 @@
 # Sync Code
 
-Sync code is a Web Application where multiple users can do code synchronously. First Create a room and Copy the room ID then send the room ID which you want to call. also, you can see how many people are in your room. If any people enter or left to your room then the popup menu tells u that that man enter or left to room
+Sync Code is a collaborative, real-time code editor where users can seamlessly code together. It provides a platform for multiple users to enter a room, share a unique room ID, and collaborate on code simultaneously. Users can seamlessly edit and download files while communicating through group chat.
 
 ## Tech
 

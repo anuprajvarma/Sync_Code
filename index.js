@@ -28,12 +28,12 @@ const getAllConnectedClients = (id) => {
     };
   });
 };
-
+const doubts = {};
 io.on("connection", (socket) => {
-  console.log(` user connected ${socket.id}`);
+  // console.log(` user connected ${socket.id}`);
 
   socket.on("join_room", (data) => {
-    //console.log(data)
+    // console.log("join one person");
     const username = data.username;
     userSocketMap[socket.id] = username;
     socket.join(data.roomId);
@@ -59,6 +59,19 @@ io.on("connection", (socket) => {
     //console.log('receving',code)
     io.to(socketId).emit("codeChange", {
       code,
+    });
+  });
+
+  socket.on("doubt", ({ id, username, doubt }) => {
+    doubts[username] = doubt;
+    console.log(doubts);
+    const clients = getAllConnectedClients(id);
+    clients.forEach(({ socketId }) => {
+      io.to(socketId).emit("doubt", {
+        doubts,
+        username,
+        socketId: socket.id,
+      });
     });
   });
 
